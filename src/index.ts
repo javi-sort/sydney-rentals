@@ -1,13 +1,17 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import listingRoutes from './routes/listings';
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.port || 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
+
+// Setting up routes
+app.use('/listings', listingRoutes);
 
 mongoose.connect(process.env.MONGODB_URI as string)
     .then(() => {
