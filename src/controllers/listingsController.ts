@@ -11,7 +11,7 @@ export const getListings = async (req: Request, res: Response) => {
     }
 };
 
-// Save an individual listing
+// Save an individual listing to DB
 export const saveListing = async (req: Request, res: Response) => {
     try {
         const listing = new Listing(req.body);
@@ -21,4 +21,13 @@ export const saveListing = async (req: Request, res: Response) => {
     } catch (err) {
         res.status(500).json({ message: 'Server error'});
     }
+};
+
+// Remove a listing from the DB
+export const deleteListing = async (req: Request, res: Response) => {
+    // TODO
+};
+
+export const deactivateListing = async (req: Request, res: Response) => {
+    // TODO
 };
