@@ -5,6 +5,8 @@
     "mongodb": "^7.2.0",
     "mongoose": "^9.6.3",
     "playwright": "^1.60.0",
+    "playwright-extra": "^4.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
     "typescript": "^6.0.3"
   },
   "devDependencies": {
