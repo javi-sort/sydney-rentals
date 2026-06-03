@@ -13,7 +13,8 @@ app.use(express.json());
 // Setting up routes
 app.use('/listings', listingRoutes);
 
-mongoose.connect(process.env.MONGODB_URI as string)
+mongoose
+    .connect(process.env.MONGODB_URI as string)
     .then(() => {
         console.log(`Connected to MongoDB`);
         app.listen(PORT, () => {

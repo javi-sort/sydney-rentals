@@ -7,7 +7,7 @@ export const getListings = async (req: Request, res: Response) => {
         const listings = await Listing.find();
         res.json(listings);
     } catch (err) {
-        res.status(500).json({ message: 'Server error'});
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -19,7 +19,7 @@ export const saveListing = async (req: Request, res: Response) => {
 
         res.status(201).json({ message: 'Listing saved!' });
     } catch (err) {
-        res.status(500).json({ message: 'Server error'});
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
