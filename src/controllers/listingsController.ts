@@ -17,6 +17,7 @@ export const saveListing = async (req: Request, res: Response) => {
         const listing = new Listing(req.body);
         await listing.save();
 
+        res.header('Access-Control-Allow-Origin', '*');
         res.status(201).json({ message: 'Listing saved!' });
     } catch (err) {
         res.status(500).json({ message: 'Server error' });

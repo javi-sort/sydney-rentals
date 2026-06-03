@@ -17,17 +17,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('agent').textContent = listing.agentName || 'Not found';
 
     // Send listing to DB via backend API request
-    document.getElementById('save-btn').addEventListener('click', async () => {
-        const reponse = await fetch('http://localhost:3000/listings', {
-            method: 'POST',
-            headers: { ContentType: 'application/json' },
-            body: JSON.stringify(listing),
+    const saveBtn = document.getElementById('save-btn');
+    
+    saveBtn.addEventListener('click', () => {
+        chrome.runtime.sendMessage({ type: 'SAVE_LISTING', listing }, (response) => {
+            if (response.ok) {
+                document.getElementById('status').textContent = 'Listing saved!';
+            } else {
+                document.getElementById('status').textContent = 'Something went wrong...';
+            }
         });
-
-        if (response.ok) {
-            document.getElementById('status').textContent = 'Listing saved!';
-        } else {
-            document.getElementById('status').textContent = 'Something went wrong...';
-        }
     });
 });
