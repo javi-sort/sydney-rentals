@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <style>
+            body {
+                width: 300px;
+                padding: 16px;
+                font-family: sans-serif;
+            }
+            h2 {
+                margin: 0 0 12px;
+                font-size: 16px;
+            }
+            .field {
+                margin-bottom: 8px;
+                font-size: 14px;
+            }
+            .label {
+                font-weight: bold;
+            }
+            button {
+                margin-top: 12px;
+                width: 100%;
+                padding: 10px;
+                background: #2563eb;
+                color: white;
+                border: none;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 14px;
+            }
+            #status {
+                margin-top: 10px;
+                font-size: 13px;
+                color: green;
+            }
+        </style>
+    </head>
+    <body>
+        <h2>Save this listing?</h2>
+        <div class="field"><span class="label">Address:</span> <span id="address">Loading...</span></div>
+        <div class="field"><span class="label">Price:</span> <span id="price">Loading...</span></div>
+        <div class="field"><span class="label">Agent:</span> <span id="agent">Loading...</span></div>
+        <button id="save-btn">Save Listing</button>
+        <div id="status"></div>
+        <script src="popup.js"></script>
+    </body>
+</html>
