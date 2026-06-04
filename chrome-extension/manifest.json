@@ -3,9 +3,9 @@
     "name": "Sydney Rental Tracker",
     "version": "1.0",
     "description": "Save and track rental listings from realestate.com.au and domain.com.au",
-    "permissions": ["activeTab", "scripting", "<all_urls>"],
+    "permissions": ["activeTab", "scripting"],
     "background": {
-        "scripts": ["background.js"]
+        "service_worker": "background.js"
     },
     "host_permissions": [
         "https://www.realestate.com.au/*",
