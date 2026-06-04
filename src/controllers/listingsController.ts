@@ -13,6 +13,7 @@ export const getListings = async (req: Request, res: Response) => {
 
 // Save an individual listing to DB
 export const saveListing = async (req: Request, res: Response) => {
+    console.log('saveListing hit!', req.body);
     try {
         const listing = new Listing(req.body);
         await listing.save();
@@ -20,6 +21,7 @@ export const saveListing = async (req: Request, res: Response) => {
         res.header('Access-Control-Allow-Origin', '*');
         res.status(201).json({ message: 'Listing saved!' });
     } catch (err) {
+        console.error('Save error:', err);
         res.status(500).json({ message: 'Server error' });
     }
 };
