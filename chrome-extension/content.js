@@ -5,7 +5,8 @@ function getListingData() {
             url: window.location.href,
             address: document.querySelector('h1.property-info-address')?.textContent?.trim(),
             price: document.querySelector('.property-price')?.textContent?.trim(),
-            agentName: document.querySelector('.agent-name')?.textContent?.trim(),
+            agentName: document.querySelector('[class*="AgentOrConsultantNameLink"]')?.textContent?.trim(),
+            agentPhone: document.querySelector('a[href^="tel:"]')?.href?.replace('tel:', ''),
         };
     }
 
