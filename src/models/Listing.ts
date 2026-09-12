@@ -7,6 +7,7 @@ const ListingSchema = new mongoose.Schema(
         price: { type: String, required: true },
         beds: { type: Number },
         baths: { type: Number },
+        carSpaces: { type: Number },
         isActive: { type: Boolean, default: true },
         agentName: { type: String },
         agentPhone: { type: String },
