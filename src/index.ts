@@ -2,6 +2,7 @@ import cors from 'cors';
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import path from 'path';
 import listingRoutes from './routes/listings';
 
 dotenv.config();
@@ -10,6 +11,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
+app.use(express.static(path.join(__dirname, '../public')));
 
 // Set up CORS
 app.use(cors({

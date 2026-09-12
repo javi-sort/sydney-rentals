@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sydney Rentals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --bg: #F8F9FB;
+    --surface: #FFFFFF;
+    --navy: #1A2B3C;
+    --text: #1A2B3C;
+    --text-muted: #64748B;
+    --accent: #0891B2;
+    --accent-wash: #E0F2FE;
+    --border: #E2E8F0;
+    --border-strong: #CBD5E1;
+    --green: #059669;
+    --green-bg: #ECFDF5;
+    --red: #DC2626;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0E1825;
+      --surface: #162232;
+      --text: #E8EEF4;
+      --text-muted: #8FA3B8;
+      --accent: #22D3EE;
+      --accent-wash: #0C2A35;
+      --border: #1E3148;
+      --border-strong: #2A4262;
+      --green: #34D399;
+      --green-bg: #0A2318;
+      --red: #F87171;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #0E1825;
+    --surface: #162232;
+    --text: #E8EEF4;
+    --text-muted: #8FA3B8;
+    --accent: #22D3EE;
+    --accent-wash: #0C2A35;
+    --border: #1E3148;
+    --border-strong: #2A4262;
+    --green: #34D399;
+    --green-bg: #0A2318;
+    --red: #F87171;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding-inline: 24px;
+    padding-block: 0;
+  }
+
+  header {
+    border-bottom: 1px solid var(--border);
+    padding-block: 28px;
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .header-title {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 1.75rem;
+    color: var(--text);
+    letter-spacing: -0.02em;
+  }
+
+  .header-title span {
+    color: var(--accent);
+  }
+
+  .listing-count {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  main {
+    padding-block: 32px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+
+  .card:hover {
+    border-color: var(--border-strong);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  }
+
+  .card-body {
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .price {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 1.5rem;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  .suburb-tag {
+    flex-shrink: 0;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-wash);
+    padding: 3px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  .address {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.4;
+    text-wrap: balance;
+  }
+
+  .features {
+    display: flex;
+    gap: 16px;
+  }
+
+  .feature {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--text-muted);
+  }
+
+  .feature svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    opacity: 0.7;
+  }
+
+  .card-footer {
+    border-top: 1px solid var(--border);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .agent-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .agent-name {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .agent-phone {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .card-link {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--accent);
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .card-link:hover { text-decoration: underline; }
+
+  .date-tag {
+    font-size: 0.6875rem;
+    color: var(--text-muted);
+  }
+
+  /* Empty / loading / error states */
+  .state-box {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 80px 24px;
+    color: var(--text-muted);
+  }
+
+  .state-box .state-icon {
+    font-size: 2.5rem;
+    margin-bottom: 16px;
+    display: block;
+    opacity: 0.4;
+  }
+
+  .state-box h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  .state-box p {
+    font-size: 0.875rem;
+    max-width: 360px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .error-box {
+    grid-column: 1 / -1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--red);
+    border-radius: 8px;
+    padding: 20px 24px;
+  }
+
+  .error-box p {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  .error-box strong {
+    font-size: 0.9375rem;
+    color: var(--red);
+  }
+
+  .skeleton {
+    background: var(--border);
+    border-radius: 4px;
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  @media (max-width: 480px) {
+    body { padding-inline: 16px; }
+    .grid { grid-template-columns: 1fr; }
+    header { padding-block: 20px; gap: 8px; }
+    .header-title { font-size: 1.5rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card { transition: none; }
+    .skeleton { animation: none; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1 class="header-title">Sydney <span>Rentals</span></h1>
+  <span class="listing-count" id="count">Loading...</span>
+</header>
+<main>
+  <div class="grid" id="grid">
+    <!-- skeleton placeholders -->
+    <div class="card" style="opacity:0.5">
+      <div class="card-body" style="gap:14px">
+        <div class="skeleton" style="height:28px;width:55%"></div>
+        <div class="skeleton" style="height:16px;width:85%"></div>
+        <div class="skeleton" style="height:14px;width:40%"></div>
+      </div>
+      <div class="card-footer"><div class="skeleton" style="height:14px;width:40%"></div></div>
+    </div>
+    <div class="card" style="opacity:0.35">
+      <div class="card-body" style="gap:14px">
+        <div class="skeleton" style="height:28px;width:48%"></div>
+        <div class="skeleton" style="height:16px;width:78%"></div>
+        <div class="skeleton" style="height:14px;width:35%"></div>
+      </div>
+      <div class="card-footer"><div class="skeleton" style="height:14px;width:33%"></div></div>
+    </div>
+  </div>
+</main>
+
+<script>
+const BED_ICON = `<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="7" width="14" height="6" rx="1" stroke="currentColor" stroke-width="1.2"/><path d="M1 10V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v5" stroke="currentColor" stroke-width="1.2"/><path d="M5 7V5h6v2" stroke="currentColor" stroke-width="1.2"/></svg>`;
+const BATH_ICON = `<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8h10v1.5A3.5 3.5 0 0 1 9.5 13h-3A3.5 3.5 0 0 1 3 9.5V8Z" stroke="currentColor" stroke-width="1.2"/><path d="M3 8V4a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1" stroke="currentColor" stroke-width="1.2"/><path d="M5 13.5V15M11 13.5V15" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>`;
+
+function formatDate(iso) {
+  const d = new Date(iso);
+  const diff = Date.now() - d;
+  const days = Math.floor(diff / 86400000);
+  if (days === 0) return 'Today';
+  if (days === 1) return 'Yesterday';
+  if (days < 7) return `${days}d ago`;
+  return d.toLocaleDateString('en-AU', { day: 'numeric', month: 'short' });
+}
+
+function renderCard(listing) {
+  const card = document.createElement('article');
+  card.className = 'card';
+
+  const hasBeds = listing.beds != null;
+  const hasBaths = listing.baths != null;
+  const featuresHtml = (hasBeds || hasBaths) ? `
+    <div class="features">
+      ${hasBeds ? `<div class="feature">${BED_ICON}<span>${listing.beds} bed${listing.beds !== 1 ? 's' : ''}</span></div>` : ''}
+      ${hasBaths ? `<div class="feature">${BATH_ICON}<span>${listing.baths} bath${listing.baths !== 1 ? 's' : ''}</span></div>` : ''}
+    </div>` : '';
+
+  const suburbHtml = listing.suburb
+    ? `<span class="suburb-tag">${listing.suburb}</span>`
+    : '';
+
+  const dateHtml = listing.createdAt
+    ? `<span class="date-tag">${formatDate(listing.createdAt)}</span>`
+    : '';
+
+  card.innerHTML = `
+    <div class="card-body">
+      <div class="card-top">
+        <div class="price">${listing.price || 'Price TBC'}</div>
+        ${suburbHtml}
+      </div>
+      <div class="address">${listing.address || 'Address unavailable'}</div>
+      ${featuresHtml}
+    </div>
+    <div class="card-footer">
+      <div class="agent-info">
+        ${listing.agentName ? `<span class="agent-name">${listing.agentName}</span>` : ''}
+        ${listing.agentPhone ? `<span class="agent-phone">${listing.agentPhone}</span>` : ''}
+        ${dateHtml}
+      </div>
+      ${listing.url ? `<a class="card-link" href="${listing.url}" target="_blank" rel="noopener">View ↗</a>` : ''}
+    </div>
+  `;
+  return card;
+}
+
+async function load() {
+  const grid = document.getElementById('grid');
+  const countEl = document.getElementById('count');
+
+  try {
+    const res = await fetch('http://127.0.0.1:3000/listings');
+    if (!res.ok) throw new Error(`Server responded ${res.status}`);
+    const listings = await res.json();
+
+    grid.innerHTML = '';
+
+    if (!listings.length) {
+      countEl.textContent = '0 listings';
+      grid.innerHTML = `
+        <div class="state-box">
+          <span class="state-icon">🏠</span>
+          <h3>No listings saved yet</h3>
+          <p>Browse realestate.com.au or domain.com.au and hit Save in the extension to add one.</p>
+        </div>`;
+      return;
+    }
+
+    countEl.textContent = `${listings.length} listing${listings.length !== 1 ? 's' : ''}`;
+    listings.forEach(l => grid.appendChild(renderCard(l)));
+
+  } catch (err) {
+    grid.innerHTML = '';
+    countEl.textContent = '';
+    grid.innerHTML = `
+      <div class="error-box">
+        <strong>Could not connect to backend</strong>
+        <p>Make sure the server is running on port 3000. ${err.message}</p>
+      </div>`;
+  }
+}
+
+load();
+</script>
+</body>
+</html>
