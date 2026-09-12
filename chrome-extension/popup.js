@@ -13,8 +13,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Populate the listing attributes
     document.getElementById('address').textContent = listing.address || 'Not found';
+    document.getElementById('suburb').textContent = listing.suburb || 'Not found';
     document.getElementById('price').textContent = listing.price || 'Not found';
+    document.getElementById('beds').textContent = listing.beds ?? 'Not found';
+    document.getElementById('baths').textContent = listing.baths ?? 'Not found';
+    document.getElementById('carSpaces').textContent = listing.carSpaces ?? 'Not found';
     document.getElementById('agent').textContent = listing.agentName || 'Not found';
+    document.getElementById('agentPhone').textContent = listing.agentPhone || 'Not found';
 
     // Send listing to DB via backend API request
     const saveBtn = document.getElementById('save-btn');
