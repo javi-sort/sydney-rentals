@@ -18,8 +18,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('beds').textContent = listing.beds ?? 'Not found';
     document.getElementById('baths').textContent = listing.baths ?? 'Not found';
     document.getElementById('carSpaces').textContent = listing.carSpaces ?? 'Not found';
-    document.getElementById('agent').textContent = listing.agentName || 'Not found';
-    document.getElementById('agentPhone').textContent = listing.agentPhone || 'Not found';
+    // Render unique contacts grouped together in a bordered container
+    const contactsEl = document.getElementById('contacts');
+    if (listing.contacts?.length) {
+        contactsEl.innerHTML = `<div class="contacts-group">${listing.contacts.map(c => `
+            <div class="contact-entry">
+                <span class="label">${c.name || 'Unknown'}</span>
+                <span>${c.phone || 'No phone'}</span>
+            </div>
+        `).join('')}</div>`;
+    } else {
+        contactsEl.textContent = 'No contacts found';
+    }
 
     // Send listing to DB via backend API request
     const saveBtn = document.getElementById('save-btn');

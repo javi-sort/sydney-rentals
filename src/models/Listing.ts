@@ -9,9 +9,7 @@ const ListingSchema = new mongoose.Schema(
         baths: { type: Number },
         carSpaces: { type: Number },
         isActive: { type: Boolean, default: true },
-        agentName: { type: String },
-        agentPhone: { type: String },
-        agentRole: { type: String },
+        contacts: [{ name: { type: String }, phone: { type: String } }],
     },
     { timestamps: true },
 );
