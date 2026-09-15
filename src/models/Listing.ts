@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 const ListingSchema = new mongoose.Schema(
     {
         url: { type: String, required: true },
+        address: { type: String },
         suburb: { type: String },
         price: { type: String, required: true },
         beds: { type: Number },
