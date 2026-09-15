@@ -10,6 +10,22 @@ function getListingData() {
         const bathsEl = document.querySelector('li[aria-label$=" bathrooms"], li[aria-label$=" bathroom"]');
         const carEl = document.querySelector('li[aria-label$=" car space"], li[aria-label$=" car spaces"]');
 
+        // Each contact is an <li> with a name link and tel: href — deduplicate by name in case the same contact appears in multiple page sections
+        const contactEls = document.querySelectorAll('li:has(a[class*="AgentOrConsultantNameLink"])');
+        const seen = new Set();
+        const contacts = Array.from(contactEls)
+            .map(li => ({
+                name: li.querySelector('[class*="AgentOrConsultantNameLink"]')?.textContent?.trim(),
+                phone: li.querySelector('a[href^="tel:"]')?.href?.replace('tel:', ''),
+            }))
+            .filter(c => {
+                const key = c.name || c.phone;
+                if (!key || seen.has(key)) return false;
+                seen.add(key);
+                return true;
+            })
+            .slice(0, 2);
+
         return {
             url: window.location.href,
             address,
@@ -18,8 +34,7 @@ function getListingData() {
             beds: bedsEl ? parseInt(bedsEl.querySelector('p')?.textContent) : undefined,
             baths: bathsEl ? parseInt(bathsEl.querySelector('p')?.textContent) : undefined,
             carSpaces: carEl ? parseInt(carEl.querySelector('p')?.textContent) : undefined,
-            agentName: document.querySelector('[class*="AgentOrConsultantNameLink"]')?.textContent?.trim(),
-            agentPhone: document.querySelector('a[href^="tel:"]')?.href?.replace('tel:', ''),
+            contacts,
         };
     }
 

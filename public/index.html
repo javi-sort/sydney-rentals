@@ -193,8 +193,14 @@
   .agent-info {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 6px;
     min-width: 0;
+  }
+
+  .agent {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
   }
 
   .agent-name {
@@ -373,8 +379,11 @@ function renderCard(listing) {
     </div>
     <div class="card-footer">
       <div class="agent-info">
-        ${listing.agentName ? `<span class="agent-name">${listing.agentName}</span>` : ''}
-        ${listing.agentPhone ? `<span class="agent-phone">${listing.agentPhone}</span>` : ''}
+        ${(listing.contacts || []).map(c => `
+          <div class="agent">
+            ${c.name ? `<span class="agent-name">${c.name}</span>` : ''}
+            ${c.phone ? `<span class="agent-phone">${c.phone}</span>` : ''}
+          </div>`).join('')}
         ${dateHtml}
       </div>
       ${listing.url ? `<a class="card-link" href="${listing.url}" target="_blank" rel="noopener">View ↗</a>` : ''}

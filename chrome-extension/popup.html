@@ -19,6 +19,24 @@
             .label {
                 font-weight: bold;
             }
+            .contacts-group {
+                margin-top: 4px;
+                border: 1px solid #e5e7eb;
+                border-radius: 6px;
+                padding: 8px 10px;
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            }
+            .contact-entry {
+                display: flex;
+                flex-direction: column;
+                gap: 2px;
+            }
+            .contact-entry + .contact-entry {
+                padding-top: 8px;
+                border-top: 1px solid #f3f4f6;
+            }
             button {
                 margin-top: 12px;
                 width: 100%;
@@ -45,8 +63,8 @@
         <div class="field"><span class="label">Beds:</span> <span id="beds">Loading...</span></div>
         <div class="field"><span class="label">Baths:</span> <span id="baths">Loading...</span></div>
         <div class="field"><span class="label">Car spaces:</span> <span id="carSpaces">Loading...</span></div>
-        <div class="field"><span class="label">Agent:</span> <span id="agent">Loading...</span></div>
-        <div class="field"><span class="label">Phone:</span> <span id="agentPhone">Loading...</span></div>
+        <div class="field"><span class="label">Contacts</span></div>
+        <div id="contacts">Loading...</div>
         <button id="save-btn">Save Listing</button>
         <div id="status"></div>
         <script src="popup.js"></script>
