@@ -181,6 +181,14 @@
     opacity: 0.7;
   }
 
+  .card-image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    display: block;
+    background: var(--border);
+  }
+
   .card-footer {
     border-top: 1px solid var(--border);
     padding: 12px 20px;
@@ -377,6 +385,7 @@ function renderCard(listing) {
       <div class="address">${listing.address || 'Address unavailable'}</div>
       ${featuresHtml}
     </div>
+    ${listing.imageUrl ? `<img class="card-image" src="${listing.imageUrl}" alt="${listing.address || 'Listing photo'}" loading="lazy">` : ''}
     <div class="card-footer">
       <div class="agent-info">
         ${(listing.contacts || []).map(c => `
