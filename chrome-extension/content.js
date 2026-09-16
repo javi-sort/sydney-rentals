@@ -26,6 +26,12 @@ function getListingData() {
             })
             .slice(0, 2);
 
+        // Main listing photo — try the hero container first, fall back to the alt text pattern
+        const imageUrl = (
+            document.querySelector('.hero-image img')?.src ||
+            document.querySelector('img[alt*=", image 1 of"]')?.src
+        );
+
         return {
             url: window.location.href,
             address,
@@ -34,6 +40,7 @@ function getListingData() {
             beds: bedsEl ? parseInt(bedsEl.querySelector('p')?.textContent) : undefined,
             baths: bathsEl ? parseInt(bathsEl.querySelector('p')?.textContent) : undefined,
             carSpaces: carEl ? parseInt(carEl.querySelector('p')?.textContent) : undefined,
+            imageUrl,
             contacts,
         };
     }
