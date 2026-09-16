@@ -9,6 +9,7 @@ const ListingSchema = new mongoose.Schema(
         beds: { type: Number },
         baths: { type: Number },
         carSpaces: { type: Number },
+        imageUrl: { type: String },
         isActive: { type: Boolean, default: true },
         contacts: [{ name: { type: String }, phone: { type: String } }],
     },
