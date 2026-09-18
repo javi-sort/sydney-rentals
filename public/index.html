@@ -237,6 +237,11 @@
 
   .card-link:hover { text-decoration: underline; }
 
+  .card--inactive {
+    opacity: 0.45;
+    filter: grayscale(0.35);
+  }
+
   .date-tag {
     font-size: 0.6875rem;
     color: var(--text-muted);
@@ -319,6 +324,7 @@
 <header>
   <h1 class="header-title">Sydney <span>Rentals</span></h1>
   <span class="listing-count" id="count">Loading...</span>
+  <button id="refresh-btn" class="listing-count" style="cursor:pointer;background:none;border:1px solid var(--border);border-radius:4px;padding:2px 10px;">Check status</button>
 </header>
 <main>
   <div class="grid" id="grid">
@@ -358,7 +364,7 @@ function formatDate(iso) {
 
 function renderCard(listing) {
   const card = document.createElement('article');
-  card.className = 'card';
+  card.className = `card${listing.isActive === false ? ' card--inactive' : ''}`;
 
   const hasBeds = listing.beds != null;
   const hasBaths = listing.baths != null;
@@ -401,9 +407,28 @@ function renderCard(listing) {
   return card;
 }
 
-async function load() {
+const STATUS_CHECK_KEY = 'lastStatusCheck';
+const STATUS_CHECK_TTL = 60 * 60 * 1000; // 1 hour
+
+async function checkUrls() {
+  await fetch('http://127.0.0.1:3000/listings/check-urls', { method: 'POST' });
+  try { localStorage.setItem(STATUS_CHECK_KEY, Date.now()); } catch {}
+}
+
+async function load(forceCheck = false) {
   const grid = document.getElementById('grid');
   const countEl = document.getElementById('count');
+  const refreshBtn = document.getElementById('refresh-btn');
+
+  // Run URL check if forced or cache has expired
+  const lastCheck = (() => { try { return parseInt(localStorage.getItem(STATUS_CHECK_KEY) || '0'); } catch { return 0; } })();
+  const checkDue = forceCheck || (Date.now() - lastCheck > STATUS_CHECK_TTL);
+
+  if (checkDue) {
+    if (refreshBtn) { refreshBtn.textContent = 'Checking…'; refreshBtn.disabled = true; }
+    await checkUrls();
+    if (refreshBtn) { refreshBtn.textContent = 'Check status'; refreshBtn.disabled = false; }
+  }
 
   try {
     const res = await fetch('http://127.0.0.1:3000/listings');
@@ -423,7 +448,10 @@ async function load() {
       return;
     }
 
-    countEl.textContent = `${listings.length} listing${listings.length !== 1 ? 's' : ''}`;
+    // Count only active listings in the header
+    const activeCount = listings.filter(l => l.isActive !== false).length;
+    const inactiveCount = listings.length - activeCount;
+    countEl.textContent = `${activeCount} listing${activeCount !== 1 ? 's' : ''}${inactiveCount ? ` · ${inactiveCount} gone` : ''}`;
     listings.forEach(l => grid.appendChild(renderCard(l)));
 
   } catch (err) {
@@ -437,6 +465,7 @@ async function load() {
   }
 }
 
+document.getElementById('refresh-btn').addEventListener('click', () => load(true));
 load();
 </script>
 </body>
